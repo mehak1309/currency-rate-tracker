@@ -9,9 +9,6 @@ THRESHOLDS = {
     "INR": {"Low": 100.0}
 }
 
-with open("", "r") as f:
-    API_KEY = f.readline()
-
 def currency_exchange_rate(from_currency, to_currency, api_key):
     """
     This function retrieves the real-time exchange rate between two currency codes using the AlphaVantage API.
@@ -41,14 +38,13 @@ async def say_hello(ctx: Context):
         for ALERT_PARAM in THRESHOLDS[FOREIGN_CURRENCY].keys():
 
             if ALERT_PARAM == "High":
-                print("here")
-                if currency_exchange_rate(BASE_CURRENCY, FOREIGN_CURRENCY, API_KEY) > THRESHOLDS[FOREIGN_CURRENCY][ALERT_PARAM]:
+
+                if currency_exchange_rate(BASE_CURRENCY, FOREIGN_CURRENCY, API_KEY) > THRESHOLDS[FOREIGN_CURRENCY][ALERT_PARAM]: #API_KEY not available
                     ctx.logger.info(f'{FOREIGN_CURRENCY} has exceeded the threshold {THRESHOLDS[FOREIGN_CURRENCY][ALERT_PARAM]}')
 
             elif ALERT_PARAM == "Low":
-                print("there")
 
-                if currency_exchange_rate(BASE_CURRENCY, FOREIGN_CURRENCY, API_KEY) < THRESHOLDS[FOREIGN_CURRENCY][ALERT_PARAM]:
+                if currency_exchange_rate(BASE_CURRENCY, FOREIGN_CURRENCY, API_KEY) < THRESHOLDS[FOREIGN_CURRENCY][ALERT_PARAM]: #API_KEY not available
                     ctx.logger.info(f'{FOREIGN_CURRENCY} has fallen below the threshold {THRESHOLDS[FOREIGN_CURRENCY][ALERT_PARAM]}')
 
 if __name__ == "__main__":

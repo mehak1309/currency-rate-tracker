@@ -42,6 +42,13 @@ with user_data:
     mode = second_column.selectbox("", options=[">", "<"], index=0)
     threshold = third_column.text_input("Threshold")
 
+    st.write("")
+    col1, col2, col3, col4, col5 = st.columns(5)
+    if col3.button("Submit"):
+        with open("./data/api_key.txt", 'w') as f:
+            f.write(api_key)
+         
+
 
 
 
