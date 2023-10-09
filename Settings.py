@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import requests
 import pandas as pd
@@ -27,7 +28,7 @@ def add_row(foreign_currency, mode, threshold):
     mode = second_column.selectbox("", options=[">", "<"], index=0, key=random.choice(string.ascii_uppercase)+str(random.randint(0,999999)))
     threshold = third_column.text_input("Threshold", key=random.choice(string.ascii_uppercase)+str(random.randint(0,999999)))
 
-data = get_data("./data/currency_codes.csv")
+data = get_data(os.path.join("data", "currency_codes.csv"))
 currency_codes = data['Codes'].tolist()
 
 with header:
@@ -43,11 +44,20 @@ with user_data:
     threshold = third_column.text_input("Threshold")
 
     st.write("")
+
     col1, col2, col3, col4, col5 = st.columns(5)
     if col3.button("Submit"):
-        with open("./data/.api_key.txt", 'w') as f:
+        with open(os.path.join("data", ".api_key.txt"), 'w') as f:
             f.write(api_key)
-         
+
+        d = {"Base_Currency": base_currency,
+             "Foreign_Currency": foreign_currency,
+             "Option": mode,
+             "Threshold": threshold}
+        
+        df = pd.DataFrame.from_dict({d})
+        df.to_csv(os.path.join("data", "user_settings.csv"))
+
 
 
 

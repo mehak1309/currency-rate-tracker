@@ -31,7 +31,7 @@ def currency_exchange_rate(from_currency, to_currency, api_key):
 alice = Agent(name="alice", seed="alice recovery phrase")
 
 @alice.on_interval(period=252)
-async def say_hello(ctx: Context):
+async def monitor(ctx: Context):
 
     for FOREIGN_CURRENCY in THRESHOLDS.keys():
 
