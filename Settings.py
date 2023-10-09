@@ -55,8 +55,8 @@ with user_data:
              "Option": mode,
              "Threshold": threshold}
         
-        df = pd.DataFrame.from_dict({d})
-        df.to_csv(os.path.join("data", "user_settings.csv"))
+        df = pd.DataFrame(d, index=[0])
+        df.to_csv(os.path.join("data", "user_settings.csv"), index=False)
 
 
 

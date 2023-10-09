@@ -28,10 +28,10 @@ def currency_exchange_rate(from_currency, to_currency, api_key):
     # To extract and return the exchange rate
     return float(data["Realtime Currency Exchange Rate"]["5. Exchange Rate"])
 
-alice = Agent(name="alice", seed="alice recovery phrase")
+agent = Agent(name="currency_monitor", seed="alice recovery phrase")
 
-@alice.on_interval(period=252)
-async def monitor(ctx: Context):
+@agent.on_interval(period=252)
+async def currency_monitor(ctx: Context):
 
     for FOREIGN_CURRENCY in THRESHOLDS.keys():
 
@@ -48,4 +48,4 @@ async def monitor(ctx: Context):
                     ctx.logger.info(f'{FOREIGN_CURRENCY} has fallen below the threshold {THRESHOLDS[FOREIGN_CURRENCY][ALERT_PARAM]}')
 
 if __name__ == "__main__":
-    alice.run()
+    agent.run()
