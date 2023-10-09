@@ -8,6 +8,7 @@ THRESHOLDS = {
     "JPY": 120.0,
     "INR": 100
 }
+
 API_KEY = "YOUR_API_KEY"
 
 def currency_exchange_rate(from_currency, to_currency, api_key):
