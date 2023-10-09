@@ -1,31 +1,59 @@
-#import libraries
-import requests, json
-from uagents import Agent, Context 
+# Import necessary libraries
+import requests
+from uagents import Agent, Context
 
-#user input values
+# user input values
 BASE_CURRENCY = "USD"
-THRESHOLDS={"JPY": {120.0, "low"}, "IND":{100, "high"}}
-API_KEY = "BYQ8L1U8PWKZ2NKL"
+THRESHOLDS = {
+    "JPY": 120.0,
+    "INR": 100
+}
+API_KEY = "YOUR_API_KEY"
 
+class Agent:
+    def __init__(self, name, seed):
+        self.name = name
+        self.seed = seed
 
-def currency_exchange_rate(from_currency, to_currency, api_key, country=True): 
+    def on_interval(self, period):
+        def decorator(func):
+            async def wrapper(ctx):
+                await func(ctx)
+            return wrapper
+        return decorator
+
+    def run(self):
+        pass
+
+class Context:
+    def __init__(self, logger):
+        self.logger = logger
+
+def currency_exchange_rate(from_currency, to_currency, api_key):
     """
-    This function takes input two country codes: from_currency and to_currency and outputs the exchnage rate in real time.
-    """ 
-    url = 'https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency='+from_currency+'&to_currency='+to_currency+'&apikey='+api_key
+    This function retrieves the real-time exchange rate between two currency codes using the AlphaVantage API.
+    Parameters:
+    - from_currency (str): The currency code you want to convert from.
+    - to_currency (str): The currency code you want to convert to.
+    - api_key (str): Your AlphaVantage API key for authentication.
+    Returns:
+    - float: The real-time exchange rate between the specified currencies.
+    """
+    # To construct the API request URL
+    url = 'https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=' + from_currency + '&to_currency=' + to_currency + '&apikey=' + api_key
+    # To send a GET request to the API
     r = requests.get(url)
+    # To parse the JSON response
     data = r.json()
+    # To extract and return the exchange rate
     return float(data["Realtime Currency Exchange Rate"]["5. Exchange Rate"])
 
-print(currency_exchange_rate("USD", "JPY", "BYQ8L1U8PWKZ2NKL"))
-alice = Agent(name="alice", seed="alice recovery phrase")
-@alice.on_interval(period=20)
+@alice.on_interval(period=252)
 async def say_hello(ctx: Context):
     for FOREIGN_CURRENCY in THRESHOLDS.keys():
         if currency_exchange_rate(BASE_CURRENCY, FOREIGN_CURRENCY, API_KEY) > THRESHOLDS[FOREIGN_CURRENCY]:
             ctx.logger.info(f'{FOREIGN_CURRENCY} has exceeded the threshold {THRESHOLDS[FOREIGN_CURRENCY]}')
 
 if __name__ == "__main__":
+    alice = Agent(name="alice", seed="alice recovery phrase")
     alice.run()
-
-
