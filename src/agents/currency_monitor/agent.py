@@ -5,11 +5,12 @@ from uagents import Agent, Context
 # User input values
 BASE_CURRENCY = "USD"
 THRESHOLDS = {
-    "JPY": 120.0,
-    "INR": 100
+    "JPY": {"High": 120.0, "Low": 130.0},
+    "INR": {"Low": 100.0}
 }
 
-API_KEY = "YOUR_API_KEY"
+with open("", "r") as f:
+    API_KEY = f.readline()
 
 def currency_exchange_rate(from_currency, to_currency, api_key):
     """
@@ -31,11 +32,24 @@ def currency_exchange_rate(from_currency, to_currency, api_key):
     return float(data["Realtime Currency Exchange Rate"]["5. Exchange Rate"])
 
 alice = Agent(name="alice", seed="alice recovery phrase")
+
 @alice.on_interval(period=252)
 async def say_hello(ctx: Context):
+
     for FOREIGN_CURRENCY in THRESHOLDS.keys():
-        if currency_exchange_rate(BASE_CURRENCY, FOREIGN_CURRENCY, API_KEY) > THRESHOLDS[FOREIGN_CURRENCY]:
-            ctx.logger.info(f'{FOREIGN_CURRENCY} has exceeded the threshold {THRESHOLDS[FOREIGN_CURRENCY]}')
+
+        for ALERT_PARAM in THRESHOLDS[FOREIGN_CURRENCY].keys():
+
+            if ALERT_PARAM == "High":
+                print("here")
+                if currency_exchange_rate(BASE_CURRENCY, FOREIGN_CURRENCY, API_KEY) > THRESHOLDS[FOREIGN_CURRENCY][ALERT_PARAM]:
+                    ctx.logger.info(f'{FOREIGN_CURRENCY} has exceeded the threshold {THRESHOLDS[FOREIGN_CURRENCY][ALERT_PARAM]}')
+
+            elif ALERT_PARAM == "Low":
+                print("there")
+
+                if currency_exchange_rate(BASE_CURRENCY, FOREIGN_CURRENCY, API_KEY) < THRESHOLDS[FOREIGN_CURRENCY][ALERT_PARAM]:
+                    ctx.logger.info(f'{FOREIGN_CURRENCY} has fallen below the threshold {THRESHOLDS[FOREIGN_CURRENCY][ALERT_PARAM]}')
 
 if __name__ == "__main__":
     alice.run()
