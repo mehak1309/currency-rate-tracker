@@ -1,3 +1,4 @@
 uagents
 poetry
 streamlit
+plotly
