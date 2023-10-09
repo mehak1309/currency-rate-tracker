@@ -2,7 +2,7 @@
 import requests
 from uagents import Agent, Context
 
-# user input values
+# User input values
 BASE_CURRENCY = "USD"
 THRESHOLDS = {
     "JPY": 120.0,
