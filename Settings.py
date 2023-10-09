@@ -24,9 +24,16 @@ input_rows = []
 
 def add_row(foreign_currency, mode, threshold):
     input_rows.append({"foreign_currency": foreign_currency, "mode": mode, "threshold": threshold})
-    foreign_currency = first_column.selectbox("Foreign Currency", options=currency_codes, index=1,key=random.choice(string.ascii_uppercase)+str(random.randint(0,999999)))
-    mode = second_column.selectbox("", options=[">", "<"], index=0, key=random.choice(string.ascii_uppercase)+str(random.randint(0,999999)))
-    threshold = third_column.text_input("Threshold", key=random.choice(string.ascii_uppercase)+str(random.randint(0,999999)))
+    foreign_currency = first_column.selectbox("Foreign Currency",
+                                              options=currency_codes,
+                                              index=1,
+                                              key=random.choice(string.ascii_uppercase)+str(random.randint(0,999999)))
+    mode = second_column.selectbox("",
+                                   options=[">", "<"],
+                                   index=0,
+                                   key=random.choice(string.ascii_uppercase)+str(random.randint(0,999999)))
+    threshold = third_column.text_input("Threshold",
+                                        key=random.choice(string.ascii_uppercase)+str(random.randint(0,999999)))
 
 data = get_data(os.path.join("data", "currency_codes.csv"))
 currency_codes = data['Codes'].tolist()
@@ -39,8 +46,11 @@ with user_data:
     base_currency = st.selectbox("Base Currency", options=currency_codes, index=0)
     st.text("Get Notified When:")
     first_column, second_column, third_column = st.columns(3)
-    foreign_currency = first_column.selectbox("Foreign Currency", options=currency_codes, index=1)
-    mode = second_column.selectbox("", options=[">", "<"], index=0)
+    foreign_currency = first_column.selectbox("Foreign Currency",
+                                              options=currency_codes, index=1)
+    mode = second_column.selectbox("",
+                                   options=[">", "<"],
+                                   index=0)
     threshold = third_column.text_input("Threshold")
 
     st.write("")
