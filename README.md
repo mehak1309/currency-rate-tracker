@@ -18,15 +18,18 @@ Link to uAgent Library:
 
 ## Installation
 To clone the repository, run the following:
+
 ```bash
 git clone https://github.com/mehak1309/currency-exchange-monitor
 
 ```
 To install the package, run the follwing command:
+
 ```bash
 pip install -r requirments.txt
 ```
 To run the application, use the following commands:
+
 ```bash
 python ./src/ main.py
 python -m streamlit run settings.py
@@ -39,22 +42,27 @@ Please fill the required details in the website above to receive your API key.
 ## Package Dependencies
 
 1. **Fetch.ai's uAgent Library**
+   
     ```bash
     pip install uagent
     ```
 2. **Streamlit**
+   
     ```bash
     pip install streamlit
     ```
 3. **Playsound**
+   
     ```bash
     pip install playsound
     ```
 4. **Pandas**
+   
     ```bash
     pip install pandas
     ```
 5. **Plotly**
+    
     ```bash
     pip install plotly
     ```
