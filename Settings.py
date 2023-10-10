@@ -86,12 +86,9 @@ with user_data:
             d["Threshold"].append(row["threshold"])
             with open(os.path.join("src",".key","api_key.txt"), 'r') as f:
                 api_key = f.readline()
-            print("hello", base_currency, row["foreign_currency"], api_key)
             d["Exchange_Rate"].append(currency_exchange_rate(base_currency, row["foreign_currency"], api_key))
         
         df = pd.DataFrame.from_dict(d)
-        print(d)
-        print(df)
         df.to_csv(os.path.join("src", "data", "user_settings.csv"), index=False)
 
 
