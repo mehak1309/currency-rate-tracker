@@ -25,4 +25,5 @@ The Currency Exchange Monitor & Alert Agent is a tool built using the Fetch.ai's
 4. **Generate your API key using link below:**
 
     Link to generate an API key - [link](https://www.alphavantage.co/support/#api-key)
+    
     Please fill the required details in the website above to receive your API key. 
