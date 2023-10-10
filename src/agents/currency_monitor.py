@@ -4,18 +4,20 @@ import requests
 from uagents import Agent, Context
 import pandas as pd
 
-# User input values
-
+# Read data
 df = pd.read_csv(os.path.join("src","data","user_settings.csv"), header=0)
-BASE_CURRENCY = df.Base_Currency.unique()[0]
-THRESHOLDS = {}
-for idx, row in df.iterrows():
-    if row.Foreign_Currency not in THRESHOLDS.keys():
-        THRESHOLDS[row.Foreign_Currency] = {}
-    THRESHOLDS[row.Foreign_Currency][row.Option] = float(row.Threshold)
-
 with open(os.path.join("src",".key","api_key.txt"), 'r') as f:
     API_KEY = f.readline()
+    f.close()
+
+# User inputs
+base_currency = df.Base_Currency.unique()[0]
+thresholds = {}
+
+for idx, row in df.iterrows():
+    if row.foreign_currency not in thresholds.keys():
+        thresholds[row.foreign_currency] = {}
+    thresholds[row.foreign_currency][row.Option] = float(row.Threshold)
 
 def currency_exchange_rate(from_currency, to_currency, api_key):
     """
@@ -40,22 +42,20 @@ agent = Agent(name="currency_monitor", seed="seed goes here")
 
 @agent.on_interval(period=252)
 async def currency_monitor(ctx: Context):
+    try:
+        for foreign_currency in thresholds.keys():
+            for alert_param in thresholds[foreign_currency].keys():
+                current_value = currency_exchange_rate(base_currency, foreign_currency, API_KEY)
+                df = pd.read_csv(os.path.join("src","data","user_settings.csv"), header=0)
+                df.loc[df['foreign_currency'] == foreign_currency, 'Exchange_Rate'] = current_value
+                df.to_csv(os.path.join("src","data","user_settings.csv"), index=False)
 
-    for FOREIGN_CURRENCY in THRESHOLDS.keys():
-
-        for ALERT_PARAM in THRESHOLDS[FOREIGN_CURRENCY].keys():
-
-            CURRENT_VALUE = currency_exchange_rate(BASE_CURRENCY, FOREIGN_CURRENCY, API_KEY)
-            df = pd.read_csv(os.path.join("src","data","user_settings.csv"), header=0)
-            df.loc[df['Foreign_Currency'] == FOREIGN_CURRENCY, 'Exchange_Rate'] = CURRENT_VALUE
-            df.to_csv(os.path.join("src","data","user_settings.csv"), index=False)
-
-            if ALERT_PARAM == ">":
-
-                if CURRENT_VALUE > THRESHOLDS[FOREIGN_CURRENCY][ALERT_PARAM]:
-                    ctx.logger.info(f'{FOREIGN_CURRENCY} has exceeded the threshold {THRESHOLDS[FOREIGN_CURRENCY][ALERT_PARAM]}')
-
-            elif ALERT_PARAM == "<":
-
-                if CURRENT_VALUE < THRESHOLDS[FOREIGN_CURRENCY][ALERT_PARAM]:
-                    ctx.logger.info(f'{FOREIGN_CURRENCY} has fallen below the threshold {THRESHOLDS[FOREIGN_CURRENCY][ALERT_PARAM]}')
+                if alert_param == ">":
+                    if current_value > thresholds[foreign_currency][alert_param]:
+                        ctx.logger.info(f'{foreign_currency} has exceeded the threshold {thresholds[foreign_currency][alert_param]}')
+                
+                elif alert_param == "<":
+                    if current_value < thresholds[foreign_currency][alert_param]:
+                        ctx.logger.info(f'{foreign_currency} has fallen below the threshold {thresholds[foreign_currency][alert_param]}')
+    except Exception as e:
+        print(f"Error: {e}")
