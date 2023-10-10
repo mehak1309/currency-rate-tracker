@@ -1,4 +1,4 @@
 Base_Currency,Foreign_Currency,Option,Threshold,Exchange_Rate
-INR,USD,>,23,0.01202
-INR,AOA,>,1,10.0396
-INR,AFN,>,32,0.90661
+AED,INR,>,9,22.592
+AED,AUD,>,0,0.42376
+AED,AFN,>,15,20.5337
