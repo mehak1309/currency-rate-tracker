@@ -1,2 +1,4 @@
 Base_Currency,Foreign_Currency,Option,Threshold,Exchange_Rate
-INR,USD,>,10,0.01201
+INR,USD,>,50,0.01202
+INR,JPY,>,0.4,1.7865
+INR,HKD,<,9,0.0938

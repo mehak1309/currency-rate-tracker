@@ -13,7 +13,6 @@ Link to uAgent Library:
 - **Custom Alerts**: Set custom thresholds for exchange rates and receive notifications when these thresholds are crossed.
 
 ## Instructions to run the project
-
 1. **Clone the Repository**
     ```bash
     git clone https://github.com/mehak1309/currency-exchange-monitor
@@ -34,7 +33,6 @@ Link to uAgent Library:
     Please fill the required details in the website above to receive your API key.
 
 ## Package Dependencies
-
 1. **Fetch.ai's uAgent Library**
     ```bash
     pip install uagent
@@ -43,5 +41,5 @@ Link to uAgent Library:
     ```bash
     pip install requests
     ```
-
+    
 These dependencies should be saved in the `requirements.txt` file, making it easier to set up the project. When setting up the project, you can simply run the following command in Step 2 to install all dependencies.

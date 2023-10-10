@@ -4,6 +4,7 @@ import pandas as pd
 import datetime
 import plotly.express as px
 from src.utils.playSound import play_sound
+from src.utils.functions import currency_exchange_rate
 
 st.set_page_config(
     page_title="Currency Exchange Monitor",
@@ -16,8 +17,22 @@ user = st.container()
 
 #data
 user_data = pd.read_csv(os.path.join("src", "data", "user_settings.csv"))
-alert_info = ["USD", "JPY", "CHF"]
 base_currency = user_data.Base_Currency.unique()[0]
+
+with open(os.path.join("src",".key","api_key.txt"), 'r') as f:
+    api_key = f.readline()
+
+alert_info = {}
+
+for idx, row in user_data.iterrows():
+    st.write(base_currency, row.Foreign_Currency, api_key)
+    current_value = currency_exchange_rate(base_currency, row.Foreign_Currency, api_key)
+
+    if row.Option == ">" and current_value > row.Threshold:
+        alert_info[row.Foreign_Currency] = [">", row.Threshold]
+        
+    if row.Option == "<" and current_value < row.Threshold:
+        alert_info[row.Foreign_Currency] = ["<", row.Threshold]
 
 with header1:
     st.title("Currency Exchange Rate Monitor")
@@ -42,10 +57,16 @@ with user:
 
         if alert_info:
             second_column.markdown("<br>" * 3, unsafe_allow_html=True)
-            for foreign_currency in alert_info:
+            for foreign_currency in alert_info.keys():
                 second_column.write("\n")
-                st.write(user_data[user_data['Foreign_Currency'] == foreign_currency]) 
-                second_column.info(f"Alert: {foreign_currency} exchange rate reached the value {user_data[user_data['Foreign_Currency'] == foreign_currency]['Threshold']}.")
+
+                if alert_info[foreign_currency][0] == ">":
+                    second_column.info(f"Alert: {foreign_currency} exchange rate reached the value {user_data[user_data['Foreign_Currency'] == foreign_currency]['Threshold'].values[0]}")
+                
+                elif alert_info[foreign_currency][0] == "<":
+                    second_column.info(f"Alert: {foreign_currency} exchange rate has fallen below the value {user_data[user_data['Foreign_Currency'] == foreign_currency]['Threshold'].values[0]}")
+                
                 play_sound()
+                
     except Exception as e:
         st.warning("Some error occurred. Please try again.")
