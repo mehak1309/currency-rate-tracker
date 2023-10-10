@@ -16,7 +16,7 @@ Link to uAgent Library:
 ## Installation
 To clone the repository, run the following:
 ```bash
-git clone https://github.com/mehak1309/currency-exchange-monitor
+git clone https://github.com/mehak1309/HackAI_230625.git
 ```
 To install the package, run the follwing command:
 ```bash
