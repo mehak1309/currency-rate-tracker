@@ -52,7 +52,6 @@ with user_data:
                                    options=[">", "<"],
                                    index=0)
     threshold = third_column.text_input("Threshold")
-
     st.write("")
 
     col1, col2, col3, col4, col5 = st.columns(5)
@@ -67,11 +66,6 @@ with user_data:
         
         df = pd.DataFrame(d, index=[0])
         df.to_csv(os.path.join("data", "user_settings.csv"), index=False)
-
-
-
-
-
 
 #     if st.button("Add Row"):
 #         st.session_state.count += 1
