@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import pandas as pd
 import datetime
@@ -13,9 +14,9 @@ header2 = st.container()
 user = st.container()
 
 #data
-user_data = pd.read_csv("./data/user_settings.csv")
+user_data = pd.read_csv(os.path.join("src", "data", "user_settings.csv"))
 alert_info = ["USD", "JPY"]
-base_currency = "INR"
+base_currency = user_data.Base_Currency.unique()[0]
 
 with header1:
     st.title("Currency Exchange Rate Monitor")

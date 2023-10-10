@@ -3,6 +3,7 @@ import streamlit as st
 import requests
 import pandas as pd
 import random, string
+from src.utils.functions import currency_exchange_rate
 
 st.set_page_config(
     page_title="Currency Exchange Monitor",
@@ -35,7 +36,7 @@ def add_row(foreign_currency, mode, threshold):
     threshold = third_column.text_input("Threshold",
                                         key=random.choice(string.ascii_uppercase)+str(random.randint(0,999999)))
 
-data = get_data(os.path.join("data", "currency_codes.csv"))
+data = get_data(os.path.join("src", "data", "currency_codes.csv"))
 currency_codes = data['Codes'].tolist()
 
 with header:
@@ -56,16 +57,17 @@ with user_data:
 
     col1, col2, col3, col4, col5 = st.columns(5)
     if col3.button("Submit"):
-        with open(os.path.join("data", ".api_key.txt"), 'w') as f:
+        with open(os.path.join("src", ".key", "api_key.txt"), 'w') as f:
             f.write(api_key)
 
         d = {"Base_Currency": base_currency,
              "Foreign_Currency": foreign_currency,
              "Option": mode,
-             "Threshold": threshold}
+             "Threshold": threshold,
+             "Exchange_Rate": currency_exchange_rate(base_currency, foreign_currency, api_key)}
         
         df = pd.DataFrame(d, index=[0])
-        df.to_csv(os.path.join("data", "user_settings.csv"), index=False)
+        df.to_csv(os.path.join("src", "data", "user_settings.csv"), index=False)
 
 #     if st.button("Add Row"):
 #         st.session_state.count += 1
