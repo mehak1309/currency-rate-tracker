@@ -9,6 +9,7 @@ The Currency Exchange Monitor & Alert Agent is a tool built using the Fetch.ai's
 - **Custom Alerts**: Set custom thresholds for exchange rates and receive notifications when these thresholds are crossed.
 
 ## Instructions to run the project
+
 1. **Clone the Repository**
     ```bash
     git clone https://github.com/mehak1309/currency-exchange-monitor
@@ -22,7 +23,6 @@ The Currency Exchange Monitor & Alert Agent is a tool built using the Fetch.ai's
     streamlit run settings.py
     ```
 4. **Generate your API key using link below:**
-    [https://www.alphavantage.co/support/#api-key]
+
+    Link to generate an API key - [link](https://www.alphavantage.co/support/#api-key)
     Please fill the required details in the website above to receive your API key. 
-
-
