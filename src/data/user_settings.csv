@@ -1,2 +1,3 @@
 Base_Currency,Foreign_Currency,Option,Threshold,Exchange_Rate
-JPY,USD,>,500,0.00671
+JPY,USD,>,500,0.00672
+JPY,INR,>,500,0.55869

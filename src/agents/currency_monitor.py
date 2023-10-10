@@ -8,10 +8,11 @@ import pandas as pd
 
 df = pd.read_csv(os.path.join("src","data","user_settings.csv"), header=0)
 BASE_CURRENCY = df.Base_Currency.unique()[0]
-THRESHOLDS = {
-    "JPY": {"High": 120.0, "Low": 130.0},
-    "INR": {"Low": 100.0}
-}
+THRESHOLDS = {}
+for idx, row in df.iterrows():
+    if row.Foreign_Currency not in THRESHOLDS.keys():
+        THRESHOLDS[row.Foreign_Currency] = {}
+    THRESHOLDS[row.Foreign_Currency][row.Option] = float(row.Threshold)
 
 with open(os.path.join("src",".key","api_key.txt"), 'r') as f:
     API_KEY = f.readline()
@@ -49,12 +50,12 @@ async def currency_monitor(ctx: Context):
             df.loc[df['Foreign_Currency'] == FOREIGN_CURRENCY, 'Exchange_Rate'] = CURRENT_VALUE
             df.to_csv(os.path.join("src","data","user_settings.csv"), index=False)
 
-            if ALERT_PARAM == "High":
+            if ALERT_PARAM == ">":
 
                 if CURRENT_VALUE > THRESHOLDS[FOREIGN_CURRENCY][ALERT_PARAM]:
                     ctx.logger.info(f'{FOREIGN_CURRENCY} has exceeded the threshold {THRESHOLDS[FOREIGN_CURRENCY][ALERT_PARAM]}')
 
-            elif ALERT_PARAM == "Low":
+            elif ALERT_PARAM == "<":
 
                 if CURRENT_VALUE < THRESHOLDS[FOREIGN_CURRENCY][ALERT_PARAM]:
                     ctx.logger.info(f'{FOREIGN_CURRENCY} has fallen below the threshold {THRESHOLDS[FOREIGN_CURRENCY][ALERT_PARAM]}')
