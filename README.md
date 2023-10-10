@@ -42,11 +42,22 @@ Please fill the required details in the website above to receive your API key.
     ```bash
     pip install uagent
     ```
-2. **Requests**
+2. **Streamlit**
     ```bash
-    pip install requests
+    pip install streamlit
     ```
-
+3. **Playsound**
+    ```bash
+    pip install playsound
+    ```
+4. **Pandas**
+    ```bash
+    pip install pandas
+    ```
+5. **Plotly**
+    ```bash
+    pip install plotly
+    ```
 These dependencies should be saved in the `requirements.txt` file, making it easier to set up the project. When setting up the project, you can simply run the following command in Step 2 to install all dependencies.
 
 ## Getting Started
@@ -67,7 +78,6 @@ When you navigate to the Currency Monitor Page, you'll encounter a dynamic bar c
 On the right-hand side, you'll find alert notifications accompanied by sound cues. These alerts promptly notify you when the foreign currencies either surpass or dip below the threshold values set by the user.
 
 
-
 ## Database
 
 This project relies on two essential datasets in CSV format:
@@ -81,7 +91,7 @@ Mehak Singal – mehaksingal13@gmail.com
 
 Nidhish Kumar - nidhish.22k@gmail.com 
 
-Garima Sikka - 21f1005923@ds.study.iitm.ac.in
+Garima Sikka - garimasikka2@gmail.com
 
 Mohammed Samir - abutech8801@gmail.com
 
