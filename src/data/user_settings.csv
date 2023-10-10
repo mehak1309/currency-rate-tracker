@@ -1,2 +1,2 @@
 Base_Currency,Foreign_Currency,Option,Threshold,Exchange_Rate
-GBP,CHF,>,0,1.11038
+INR,USD,>,10,0.01201
