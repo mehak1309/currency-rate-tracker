@@ -25,7 +25,6 @@ with open(os.path.join("src",".key","api_key.txt"), 'r') as f:
 alert_info = {}
 
 for idx, row in user_data.iterrows():
-    st.write(base_currency, row.Foreign_Currency, api_key)
     current_value = currency_exchange_rate(base_currency, row.Foreign_Currency, api_key)
 
     if row.Option == ">" and current_value > row.Threshold:
