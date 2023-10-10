@@ -1,5 +1,2 @@
-Foreign_Currency,Option,Threshold,Exchange_Rate
-USD, >,90,10.01
-JPY, <,110,148.882
-AED, <,20,32.01
-ANG, >,100,112.01
+Base_Currency,Foreign_Currency,Option,Threshold,Exchange_Rate
+JPY,USD,>,500,0.00671

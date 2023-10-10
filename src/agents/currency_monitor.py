@@ -5,7 +5,9 @@ from uagents import Agent, Context
 import pandas as pd
 
 # User input values
-BASE_CURRENCY = "USD"
+
+df = pd.read_csv(os.path.join("src","data","user_settings.csv"), header=0)
+BASE_CURRENCY = df.Base_Currency.unique()[0]
 THRESHOLDS = {
     "JPY": {"High": 120.0, "Low": 130.0},
     "INR": {"Low": 100.0}
@@ -56,6 +58,3 @@ async def currency_monitor(ctx: Context):
 
                 if CURRENT_VALUE < THRESHOLDS[FOREIGN_CURRENCY][ALERT_PARAM]:
                     ctx.logger.info(f'{FOREIGN_CURRENCY} has fallen below the threshold {THRESHOLDS[FOREIGN_CURRENCY][ALERT_PARAM]}')
-
-if __name__ == "__main__":
-    agent.run()
