@@ -1,4 +1,5 @@
 import requests
+import time
 
 def currency_exchange_rate(from_currency, to_currency, api_key):
     """

@@ -16,28 +16,27 @@ base_currency = df.Base_Currency.unique()[0]
 thresholds = {}
 
 for idx, row in df.iterrows():
-    if row.foreign_currency not in thresholds.keys():
-        thresholds[row.foreign_currency] = {}
-    thresholds[row.foreign_currency][row.Option] = float(row.Threshold)
+    if row.Foreign_Currency not in thresholds.keys():
+        thresholds[row.Foreign_Currency] = {}
+    thresholds[row.Foreign_Currency][row.Option] = float(row.Threshold)
 
+#UAgents
 agent = Agent(name="currency_monitor", seed="seed goes here")
 
 @agent.on_interval(period=252)
 async def currency_monitor(ctx: Context):
-    try:
-        for foreign_currency in thresholds.keys():
-            for alert_param in thresholds[foreign_currency].keys():
-                current_value = currency_exchange_rate(base_currency, foreign_currency, API_KEY)
-                df = pd.read_csv(os.path.join("src","data","user_settings.csv"), header=0)
-                df.loc[df['foreign_currency'] == foreign_currency, 'Exchange_Rate'] = current_value
-                df.to_csv(os.path.join("src","data","user_settings.csv"), index=False)
+    for foreign_currency in thresholds.keys():
+        for alert_param in thresholds[foreign_currency].keys():
+            current_value = currency_exchange_rate(base_currency, foreign_currency, API_KEY)
+            df = pd.read_csv(os.path.join("src","data","user_settings.csv"), header=0)
+            df.loc[df['foreign_currency'] == foreign_currency, 'Exchange_Rate'] = current_value
+            df.to_csv(os.path.join("src","data","user_settings.csv"), index=False)
 
-                if alert_param == ">":
-                    if current_value > thresholds[foreign_currency][alert_param]:
-                        ctx.logger.info(f'{foreign_currency} has exceeded the threshold {thresholds[foreign_currency][alert_param]}')
-                
-                elif alert_param == "<":
-                    if current_value < thresholds[foreign_currency][alert_param]:
-                        ctx.logger.info(f'{foreign_currency} has fallen below the threshold {thresholds[foreign_currency][alert_param]}')
-    except Exception as e:
-        print(f"Error: {e}")
+            if alert_param == ">":
+                if current_value > thresholds[foreign_currency][alert_param]:
+                    ctx.logger.info(f'{foreign_currency} has exceeded the threshold {thresholds[foreign_currency][alert_param]}')
+            
+            elif alert_param == "<":
+                if current_value < thresholds[foreign_currency][alert_param]:
+                    ctx.logger.info(f'{foreign_currency} has fallen below the threshold {thresholds[foreign_currency][alert_param]}')
+        

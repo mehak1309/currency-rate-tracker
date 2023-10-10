@@ -70,9 +70,10 @@ Here, you can provide essential information for the currencies you wish to monit
 
 - Input your API key.
 - Specify the base currency.
-- Define the foreign currency.
+- Define the foreign currency. You can add upto 3 currencies.
 - Set your desired threshold.
-- Complete the process by clicking the submit button.
+- Complete the process by clicking the submit button. 
+Wait for a minute before proceeding to the next page.
 
 ### 2. Navigate to the Currency Monitor Page
 When you navigate to the Currency Monitor Page, you'll encounter a dynamic bar chart. You have the flexibility to choose the graph view, whether for frequency or exchange rates, for the foreign currencies you selected earlier. Additionally, you can customize the foreign currencies displayed. The graph updates in real-time, providing you with the most current data.
