@@ -3,6 +3,7 @@ import streamlit as st
 import pandas as pd
 import datetime
 import plotly.express as px
+from src.utils.playSound import play_sound
 
 st.set_page_config(
     page_title="Currency Exchange Monitor",
@@ -15,7 +16,7 @@ user = st.container()
 
 #data
 user_data = pd.read_csv(os.path.join("src", "data", "user_settings.csv"))
-alert_info = ["USD", "JPY"]
+alert_info = ["USD", "JPY", "CHF"]
 base_currency = user_data.Base_Currency.unique()[0]
 
 with header1:
@@ -38,9 +39,12 @@ with user:
     fig.update_layout(width=450)
     first_column.write(fig)
 
+
     if alert_info:
         second_column.markdown("<br>" * 3, unsafe_allow_html=True)
         for foreign_currency in alert_info:
+            play_sound()
             second_column.write("\n")
-            second_column.info(f"Alert: {foreign_currency} exchange rate surpassed the threshold at {user_data[user_data['Foreign_Currency'] == foreign_currency]['Threshold'].values[0]}.")
+            st.write(user_data[user_data['Foreign_Currency'] == foreign_currency]) 
+            second_column.info(f"Alert: {foreign_currency} exchange rate reached the value {user_data[user_data['Foreign_Currency'] == foreign_currency]['Threshold']}.")
 
