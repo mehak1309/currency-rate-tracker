@@ -10,11 +10,7 @@ def currency_exchange_rate(from_currency, to_currency, api_key):
     Returns:
     - float: The real-time exchange rate between the specified currencies.
     """
-    # To construct the API request URL
     url = 'https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=' + from_currency + '&to_currency=' + to_currency + '&apikey=' + api_key
-    # To send a GET request to the API
     r = requests.get(url)
-    # To parse the JSON response
     data = r.json()
-    # To extract and return the exchange rate
     return float(data["Realtime Currency Exchange Rate"]["5. Exchange Rate"])
