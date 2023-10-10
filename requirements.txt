@@ -2,3 +2,4 @@ uagents
 poetry
 streamlit
 plotly
+playsound
