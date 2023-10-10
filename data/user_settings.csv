@@ -1,2 +1,2 @@
 Base_Currency,Foreign_Currency,Option,Threshold
-INR,USD,>,15
+INR,USD,>,50
