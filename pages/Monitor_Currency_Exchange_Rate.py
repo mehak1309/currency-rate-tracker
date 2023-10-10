@@ -39,12 +39,10 @@ with user:
     fig.update_layout(width=450)
     first_column.write(fig)
 
-
     if alert_info:
         second_column.markdown("<br>" * 3, unsafe_allow_html=True)
         for foreign_currency in alert_info:
-            play_sound()
             second_column.write("\n")
             st.write(user_data[user_data['Foreign_Currency'] == foreign_currency]) 
             second_column.info(f"Alert: {foreign_currency} exchange rate reached the value {user_data[user_data['Foreign_Currency'] == foreign_currency]['Threshold']}.")
-
+            play_sound()

@@ -43,31 +43,35 @@ with header:
     st.title("Please Enter the Following Details")
 
 with user_data:
-    api_key = st.text_input("API Key")
-    base_currency = st.selectbox("Base Currency", options=currency_codes, index=0)
-    st.text("Get Notified When:")
-    first_column, second_column, third_column = st.columns(3)
-    foreign_currency = first_column.selectbox("Foreign Currency",
-                                              options=currency_codes, index=1)
-    mode = second_column.selectbox("",
-                                   options=[">", "<"],
-                                   index=0)
-    threshold = third_column.text_input("Threshold")
-    st.write("")
+    try:
+        api_key = st.text_input("API Key")
+        base_currency = st.selectbox("Base Currency", options=currency_codes, index=0)
+        st.text("Get Notified When:")
+        first_column, second_column, third_column = st.columns(3)
+        foreign_currency = first_column.selectbox("Foreign Currency",
+                                                options=currency_codes, index=1)
+        mode = second_column.selectbox("",
+                                    options=[">", "<"],
+                                    index=0)
+        threshold = third_column.text_input("Threshold")
+        st.write("")
 
-    col1, col2, col3, col4, col5 = st.columns(5)
-    if col3.button("Submit"):
-        with open(os.path.join("src", ".key", "api_key.txt"), 'w') as f:
-            f.write(api_key)
+        col1, col2, col3, col4, col5 = st.columns(5)
+        if col3.button("Submit"):
+            with open(os.path.join("src", ".key", "api_key.txt"), 'w') as f:
+                f.write(api_key)
 
-        d = {"Base_Currency": base_currency,
-             "Foreign_Currency": foreign_currency,
-             "Option": mode,
-             "Threshold": threshold,
-             "Exchange_Rate": currency_exchange_rate(base_currency, foreign_currency, api_key)}
-        
-        df = pd.DataFrame(d, index=[0])
-        df.to_csv(os.path.join("src", "data", "user_settings.csv"), index=False)
+            d = {"Base_Currency": base_currency,
+                "Foreign_Currency": foreign_currency,
+                "Option": mode,
+                "Threshold": threshold,
+                "Exchange_Rate": currency_exchange_rate(base_currency, foreign_currency, api_key)}
+            
+            df = pd.DataFrame(d, index=[0])
+            df.to_csv(os.path.join("src", "data", "user_settings.csv"), index=False)
+    except:
+         st.warning("Some error occurred. Please try again.")
+            
 
 #     if st.button("Add Row"):
 #         st.session_state.count += 1
